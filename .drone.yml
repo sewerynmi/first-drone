@@ -23,3 +23,8 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
+    when:
+      event:
+        - push
+      branch:
+        - main

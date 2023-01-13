@@ -16,7 +16,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: default
+name: build and docker push
 
 platform:
   os: linux
@@ -51,3 +51,43 @@ steps:
         - push
       branch:
         - master
+
+---
+kind: pipeline
+type: docker
+name: build notifications
+
+trigger:
+  status:
+    - success
+    - failure
+
+depends_on:
+  - build and docker push
+
+slack: &slack
+  image: plugins/slack
+  settings:
+    webhook:
+      from_secret: slack_webhook_url
+    channel: drone-pipelines
+    username: Drone
+
+steps:
+  - name: slack
+    <<: *slack
+    settings:
+      template: |
+        {{#success build.status}}
+          <${DRONE_BUILD_LINK}|Build #{{ build.number }}> succeeded! :tada:
+        {{else}}
+          <${DRONE_BUILD_LINK}|Build #{{ build.number }}> failed :broken_heart:
+        {{/success}}
+        Commit: <${DRONE_REPO_LINK}/commit/{{ build.commit }}|{{ truncate build.commit 8 }}> - {{{ trim build.message }}}
+        Repo: {{ repo.name }}
+        Branch: <${DRONE_REPO_LINK}/commits/{{ build.branch }}|{{ build.branch }}>
+        Author: {{ build.author }}
+        <https://sonarcloud.io/dashboard?id=callisto-timecard-restapi&branch={{ build.branch }}&resolved=false|SonarCloud Analysis Report>
+    when:
+      event:
+        - push

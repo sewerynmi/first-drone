@@ -11,7 +11,7 @@ func hello(w http.ResponseWriter, req *http.Request) {
 }
 
 func test(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "test seems to work cool to me\n")
+	fmt.Fprintf(w, "test seems to work cool to me too\n")
 }
 
 func headers(w http.ResponseWriter, req *http.Request) {

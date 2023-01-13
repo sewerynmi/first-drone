@@ -2,6 +2,12 @@ kind: pipeline
 type: docker
 name: default
 
+trigger:
+  branch:
+    - master
+  event:
+    - push
+
 steps:
   - name: build
     image: golang:1.13
@@ -19,8 +25,3 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
-      when:
-        event:
-          - push
-        branch:
-          - master

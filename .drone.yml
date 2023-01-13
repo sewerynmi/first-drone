@@ -16,5 +16,11 @@ steps:
       password:
         from_secret: docker_password
       repo: sever3d/golangappfromdrone
-      auto_tag: true
-      auto_tag_suffix: drone-build
+      tags:
+        - latest
+        - ${DRONE_COMMIT_SHA}
+      when:
+      event:
+        - push
+      branch:
+        - master

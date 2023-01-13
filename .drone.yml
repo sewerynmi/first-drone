@@ -54,7 +54,6 @@ steps:
 
   - name: quay.io push
     image: thegeeklab/drone-docker
-    privileged: true
     settings:
       registry: quay.io
       username:

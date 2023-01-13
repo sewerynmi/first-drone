@@ -19,7 +19,7 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      repo: sever3d/golangappfromdrone
+      repo: sever3d/golangappfromdrone # it will store images in my docker hub repo
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}

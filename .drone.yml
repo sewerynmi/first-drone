@@ -9,7 +9,7 @@ platform:
 steps:
   - name: lit_dockerfiles
     pull: if-not-exists
-    image: hadolint/hadolint:latest-alpine
+    image: hadolint/hadolint
     commands:
       - hadolint Dockerfile
 

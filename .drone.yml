@@ -24,3 +24,7 @@ steps:
         - push
       branch:
         - master
+
+trigger:
+  branch:
+    - master

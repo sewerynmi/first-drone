@@ -54,6 +54,7 @@ steps:
 
   - name: quay.io push
     image: thegeeklab/drone-docker
+    privileged: true
     settings:
       registry: quay.io
       username:
@@ -64,6 +65,11 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
+    when:
+      event:
+        - push
+      branch:
+        - master
 
 ---
 kind: pipeline

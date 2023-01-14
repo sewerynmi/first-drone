@@ -6,8 +6,11 @@ import (
 )
 
 func hello(w http.ResponseWriter, req *http.Request) {
-
     fmt.Fprintf(w, "hello\n")
+}
+
+func index(w http.ResponseWriter, req *http.Request) {
+    fmt.Fprintf(w, "The Go app is rorking !\n")
 }
 
 func test(w http.ResponseWriter, req *http.Request) {
@@ -25,6 +28,7 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 
+    http.HandleFunc("/", index)
     http.HandleFunc("/hello", hello)
     http.HandleFunc("/headers", headers)
 	http.HandleFunc("/test", test)

@@ -62,6 +62,7 @@ steps:
         from_secret: QUAY_PASSWORD
       email: sewerynmichota@gmail.com
       repo: sewerynmi/busybox
+      file: Dockerfile
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}

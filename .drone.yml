@@ -77,43 +77,6 @@ steps:
 
 ---
 kind: pipeline
-type: kubernetes
-name: callisto-timecard-restapi-dev-deploy
-
-platform:
-  os: linux
-  arch: amd64
-
-depends_on:
-  - promotion-check
-
-trigger:
-  event:
-    - promote
-  target:
-    - production
-
-steps:
-  - name: deploy to linode K8S
-    image: pelotech/drone-helm3
-    settings:
-      namespace: app
-      mode: upgrade
-      chart: ./helm
-      values:
-        - image.tag=${DRONE_COMMIT_SHA}
-      values_files:
-        - ./helm/values/dev-values.yaml
-      release: expressdroneapp
-      kube_certificate:
-        from_secret: KUBERNETES_CERTIFICATE_PROD
-      kube_api_server:
-        from_secret: KUBERNETES_SERVER_PROD
-      kube_token:
-        from_secret: KUBERNETES_TOKEN_PROD
-
----
-kind: pipeline
 type: docker
 name: promotion-check
 
@@ -147,6 +110,43 @@ steps:
       target:
         exclude:
           - production
+
+---
+kind: pipeline
+type: kubernetes
+name: expressdroneapp-K8S-deploy-dev
+
+platform:
+  os: linux
+  arch: amd64
+
+depends_on:
+  - promotion-check
+
+trigger:
+  event:
+    - promote
+  target:
+    - production
+
+steps:
+  - name: deploy to linode K8S
+    image: pelotech/drone-helm3
+    settings:
+      namespace: app
+      mode: upgrade
+      chart: ./helm
+      values:
+        - image.tag=${DRONE_COMMIT_SHA}
+      values_files:
+        - ./helm/values/dev-values.yaml
+      release: expressdroneapp
+      kube_certificate:
+        from_secret: KUBERNETES_CERTIFICATE_PROD
+      kube_api_server:
+        from_secret: KUBERNETES_SERVER_PROD
+      kube_token:
+        from_secret: KUBERNETES_TOKEN_PROD
 
 ---
 kind: pipeline

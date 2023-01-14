@@ -60,7 +60,6 @@ steps:
         from_secret: QUAY_USERNAME
       password:
         from_secret: QUAY_PASSWORD
-      email: sewerynmichota@gmail.com
       repo: sewerynmi/busybox
       file: Dockerfile
       tags:

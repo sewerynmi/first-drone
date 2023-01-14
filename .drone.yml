@@ -50,7 +50,7 @@ steps:
       event:
         - push
       branch:
-        - master
+        - master_xc
 
   - name: quay.io push
     image: plugins/docker
@@ -60,6 +60,7 @@ steps:
         from_secret: QUAY_USERNAME
       password:
         from_secret: QUAY_PASSWORD
+      email: sewerynmichota@gmail.com
       repo: sewerynmi/busybox
       tags:
         - latest

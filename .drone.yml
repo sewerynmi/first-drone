@@ -93,12 +93,12 @@ steps:
     pull: if-not-exists
     image: alpine:latest
     commands:
-      - echo Cannot promote from non 'main' branch
+      - echo Cannot promote from non 'master' branch
       - exit 1
     when:
       branch:
         exclude:
-          - main
+          - master
 
   - name: environment-check
     pull: if-not-exists
@@ -149,3 +149,4 @@ steps:
     when:
       event:
         - push
+        - promote

@@ -60,7 +60,7 @@ steps:
         from_secret: QUAY_USERNAME
       password:
         from_secret: QUAY_PASSWORD
-      repo: sewerynmi/busybox
+      repo: quay.io/sewerynmi/busybox
       file: Dockerfile
       tags:
         - latest

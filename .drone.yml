@@ -53,7 +53,7 @@ steps:
         - master
 
   - name: quay.io push
-    image: thegeeklab/drone-docker
+    image: plugins/docker
     settings:
       registry: quay.io
       username:

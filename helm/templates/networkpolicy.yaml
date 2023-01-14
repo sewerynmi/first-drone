@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: { { .Values.name } }
+      app: "{{ .Values.name }}"
   ingress:
     - {}
   egress:

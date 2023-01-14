@@ -34,8 +34,6 @@ steps:
     image: &node_image node:16.15.0
     commands:
       - npm install
-    depends_on:
-      - fetch
 
   - name: push image to docker hub
     image: plugins/docker
@@ -53,6 +51,8 @@ steps:
         - push
       branch:
         - master
+    depends_on:
+      - install dependencies
 
   - name: push image to quay.io
     image: plugins/docker

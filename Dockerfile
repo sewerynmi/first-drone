@@ -1,6 +1,9 @@
-FROM golang:1.20rc3-bullseye
+FROM node:16
 RUN mkdir /app
-COPY . /app
 WORKDIR /app
-RUN go build -o main .
-CMD ["/app/main"]
+COPY . .
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+EXPOSE 3001
+CMD ["npm","start"]

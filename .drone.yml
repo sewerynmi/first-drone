@@ -113,7 +113,7 @@ steps:
 
 ---
 kind: pipeline
-type: docker
+type: kubernetes
 name: expressdroneapp-K8S-deploy-dev
 
 platform:
@@ -159,7 +159,7 @@ trigger:
     - failure
 
 depends_on:
-  - build and docker push
+  - build and push containers
 
 slack: &slack
   image: plugins/slack

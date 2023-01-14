@@ -1,0 +1,5 @@
+apiVersion: v2
+name: expressdroneapp
+description: A Helm chart for deploying ExpressDroneApp - test app for learning Drone pipelines
+type: application
+version: 1.0.0

@@ -1,0 +1,11 @@
+name: expressdroneapp
+
+service:
+  name: expressdroneapp
+  port: 3001
+
+replicaCount: 1
+
+image:
+  repo: quay.io/sewerynmi/
+  tag: latest # this value will be overridden by drone.yml

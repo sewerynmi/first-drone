@@ -16,7 +16,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build and docker push
+name: build and push containers
 
 platform:
   os: linux
@@ -75,26 +75,42 @@ steps:
     depends_on:
       - install dependencies
 
-  - name: deploy prod linode
-    image: quay.io/honestbee/drone-kubernetes
+---
+kind: pipeline
+type: kubernetes
+name: callisto-timecard-restapi-dev-deploy
+
+platform:
+  os: linux
+  arch: amd64
+
+depends_on:
+  - promotion-check
+
+trigger:
+  event:
+    - promote
+  target:
+    - production
+
+steps:
+  - name: deploy to linode K8S
+    image: pelotech/drone-helm3
     settings:
-      kubernetes_server:
-        from_secret: KUBERNETES_SERVER_PROD
-      kubernetes_token:
-        from_secret: KUBERNETES_TOKEN_PROD
-      # notice: no tls verification will be done, warning will is printed
-      deployment: my-deployment
-      repo: quay.io/sewerynmi/expressdroneapp
-      container: my-container
       namespace: app
-      tags:
-        - latest
-        - ${DRONE_COMMIT_SHA}
-    when:
-      branch:
-        - master
-    depends_on:
-      - push image to quay.io
+      mode: upgrade
+      chart: ./helm
+      values:
+        - image.tag=${DRONE_COMMIT_SHA}
+      values_files:
+        - ./helm/values/dev-values.yaml
+      release: expressdroneapp
+      kube_certificate:
+        from_secret: KUBERNETES_CERTIFICATE_PROD
+      kube_api_server:
+        from_secret: KUBERNETES_SERVER_PROD
+      kube_token:
+        from_secret: KUBERNETES_TOKEN_PROD
 
 ---
 kind: pipeline

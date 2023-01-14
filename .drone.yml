@@ -30,10 +30,12 @@ trigger:
     - master
 
 steps:
-  - name: build
-    image: golang:1.13
+  - name: install dependencies
+    image: &node_image node:16.15.0
     commands:
-      - "go build -o ./myapp"
+      - npm install
+    depends_on:
+      - fetch
 
   - name: push image to docker hub
     image: plugins/docker

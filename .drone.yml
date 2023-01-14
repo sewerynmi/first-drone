@@ -42,7 +42,7 @@ steps:
         from_secret: docker_username
       password:
         from_secret: docker_password
-      repo: sever3d/golangappfromdrone # it will store images in my docker hub repo
+      repo: sever3d/expressdroneapp
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
@@ -59,10 +59,10 @@ steps:
     settings:
       registry: quay.io
       username:
-        from_secret: QUAY_USERNAME
+        from_secret: QUAY_USERNAME # From Quay.io Robot
       password:
         from_secret: QUAY_PASSWORD
-      repo: quay.io/sewerynmi/busybox
+      repo: quay.io/sewerynmi/expressdroneapp
       file: Dockerfile
       tags:
         - latest
@@ -72,6 +72,8 @@ steps:
         - push
       branch:
         - master
+    depends_on:
+      - install dependencies
 
 ---
 kind: pipeline

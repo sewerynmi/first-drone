@@ -60,7 +60,7 @@ steps:
         from_secret: QUAY_USERNAME
       password:
         from_secret: QUAY_PASSWORD
-      repo: quay.io/sewerynmi/busybox
+      repo: sewerynmi/busybox
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}

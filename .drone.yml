@@ -77,7 +77,7 @@ steps:
 
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: promotion-check
 
 platform:

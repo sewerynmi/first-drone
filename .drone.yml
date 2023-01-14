@@ -140,7 +140,7 @@ steps:
         - image.tag=${DRONE_COMMIT_SHA}
       values_files:
         - ./helm/values/dev-values.yaml
-      release: expressdroneapp
+
       kube_certificate:
         from_secret: KUBERNETES_CERTIFICATE_PROD
       kube_api_server:

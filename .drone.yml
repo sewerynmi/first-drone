@@ -35,7 +35,7 @@ steps:
     commands:
       - "go build -o ./myapp"
 
-  - name: publish
+  - name: push image to docker hub
     image: plugins/docker
     settings:
       username:
@@ -50,9 +50,9 @@ steps:
       event:
         - push
       branch:
-        - master_xc
+        - master
 
-  - name: quay.io push
+  - name: push image to quay.io
     image: plugins/docker
     settings:
       registry: quay.io

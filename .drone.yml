@@ -75,6 +75,25 @@ steps:
     depends_on:
       - install dependencies
 
+  - name: deploy prod linode
+    image: quay.io/honestbee/drone-kubernetes
+    settings:
+      kubernetes_server: ${KUBERNETES_SERVER_PROD}
+      kubernetes_token: ${KUBERNETES_TOKEN_PROD}
+      # notice: no tls verification will be done, warning will is printed
+      deployment: my-deployment
+      repo: quay.io/sewerynmi/expressdroneapp
+      container: my-container
+      namespace: app
+      tags:
+        - latest
+        - ${DRONE_COMMIT_SHA}
+    when:
+      branch:
+        - master
+    depends_on:
+      - push image to quay.io
+
 ---
 kind: pipeline
 type: docker

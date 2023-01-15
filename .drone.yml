@@ -16,7 +16,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: build and push containers
+name: build and push images
 
 platform:
   os: linux
@@ -31,11 +31,6 @@ trigger:
       - promote
 
 steps:
-  - name: install dependencies
-    image: &node_image node:16.15.0
-    commands:
-      - npm install
-
   - name: push image to docker hub
     image: plugins/docker
     settings:
@@ -47,8 +42,6 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
-    depends_on:
-      - install dependencies
     when:
       event:
         - push
@@ -68,8 +61,6 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
-    depends_on:
-      - install dependencies
     when:
       event:
         - push
@@ -160,7 +151,7 @@ trigger:
     - failure
 
 depends_on:
-  - build and push containers
+  - build and push images
 
 slack: &slack
   image: plugins/slack

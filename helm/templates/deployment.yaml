@@ -3,8 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.name }}
-  labels:
-    app: {{ .Values.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -15,20 +13,10 @@ spec:
       labels:
         app: {{ .Values.name }}
     spec:
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
       containers:
         - name: expressdroneapp
           image: {{ .Values.image.repo }}expressdroneapp:{{ .Values.image.tag }}
           imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
           ports:
-            - name: http
-              containerPort: 3001
+            - containerPort: 3001
+          imagePullPolicy: Always

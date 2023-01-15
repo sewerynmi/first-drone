@@ -35,9 +35,17 @@ app.get("/", (req, res) => {
   res.send(ads);
 });
 
-// defining an endpoint to return all ads
+
 app.get("/test", (req, res) => {
   res.send("Test ok : " + dayjs().format('DD/MM/YYYY hh:mm:ss') );
+});
+
+app.get("/users", (req, res) => {
+  const users = [
+    { id: 1, name: "Adam Smith", age: 33 },
+    { id: 2, name: "Anna Doe", age: 29 },
+  ];
+  res.status(200).send(users);
 });
 
 // starting the server

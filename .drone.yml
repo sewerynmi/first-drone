@@ -151,7 +151,7 @@ trigger:
     - failure
 
 depends_on:
-  - build and push containers
+  - build and push images
 
 slack: &slack
   image: plugins/slack

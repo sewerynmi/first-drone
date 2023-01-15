@@ -26,8 +26,9 @@ depends_on:
   - lint-files
 
 trigger:
-  branch:
-    - master
+  event:
+    exclude:
+      - promote
 
 steps:
   - name: install dependencies
@@ -46,13 +47,13 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
+    depends_on:
+      - install dependencies
     when:
       event:
         - push
       branch:
         - master
-    depends_on:
-      - install dependencies
 
   - name: push image to quay.io
     image: plugins/docker
@@ -67,13 +68,13 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
+    depends_on:
+      - install dependencies
     when:
       event:
         - push
       branch:
         - master
-    depends_on:
-      - install dependencies
 
 ---
 kind: pipeline

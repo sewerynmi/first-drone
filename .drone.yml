@@ -106,7 +106,7 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: expressdroneapp-K8S-deploy-dev
+name: deploy to K8S
 
 platform:
   os: linux

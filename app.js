@@ -9,7 +9,14 @@ const dayjs = require('dayjs')
 const app = express();
 
 // defining an array to work as the database (temporary solution)
-const ads = [{ title: "Hello !", status: "OK", datedeployed: dayjs().format('DD/MM/YYYY hh:mm:ss')}];
+const ads = [
+  { 
+    title: "Hello from ExpressDroneApp !", 
+    status: "OK", 
+    datedeployed: dayjs().format('DD/MM/YYYY hh:mm:ss'),
+    message: "This app was deployed to K8S via Drone pipeline using Helm"
+  }
+  ];
 
 // adding Helmet to enhance your API's security
 app.use(helmet());

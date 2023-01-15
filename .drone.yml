@@ -42,8 +42,6 @@ steps:
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
-    depends_on:
-      - install dependencies
     when:
       event:
         - push

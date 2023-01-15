@@ -3,12 +3,13 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const dayjs = require('dayjs')
 
 // defining the Express app
 const app = express();
 
 // defining an array to work as the database (temporary solution)
-const ads = [{ title: "Hello !", status: "OK" }];
+const ads = [{ title: "Hello !", status: "OK", datedeployed: dayjs().format('DD/MM/YYYY hh:mm:ss')}];
 
 // adding Helmet to enhance your API's security
 app.use(helmet());

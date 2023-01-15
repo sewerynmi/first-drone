@@ -10,7 +10,7 @@ spec:
     app: {{ .Values.name }}
   type: ClusterIP
   ports:
-    - name: https
+    - name: http
       port: {{ .Values.service.port }}
       targetPort: 3001
       protocol: TCP

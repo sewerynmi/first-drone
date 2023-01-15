@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 // defining an endpoint to return all ads
 app.get("/test", (req, res) => {
-  res.send("Test ok");
+  res.send("Test ok : " + dayjs().format('DD/MM/YYYY hh:mm:ss') );
 });
 
 // starting the server

@@ -44,6 +44,7 @@ app.get("/users", (req, res) => {
   const users = [
     { id: 1, name: "Adam Smith", age: 33 },
     { id: 2, name: "Anna Doe", age: 29 },
+    { id: 3, name: "Ted Catnip", age: 43 },
   ];
   res.status(200).send(users);
 });

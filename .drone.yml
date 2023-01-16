@@ -20,8 +20,6 @@ steps:
       chart: ./helm
       values_files:
         - ./helm/values/dev-values.yaml
-        - ./helm/templates/deployment.yaml
-        - ./helm/templates/service.yaml
 
 ---
 kind: pipeline

@@ -34,15 +34,15 @@ jobs:
         id: image-tags
         run: |
           if [ "$GITHUB_REF_NAME" = "master" ]; then
-            echo "IMAGE_TAG=latest" >> $GITHUB_ENV
+            echo "image_tag=latest" >> $GITHUB_ENV
           fi
 
           if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
-            echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
+            echo "image_tag=${TAG}" >> $GITHUB_ENV
           fi
-          echo "${{ env.IMAGE_TAG }}"
+          echo "${{ env.image_tag }}"
           echo $GITHUB_REF_NAME
-          echo "${{ env.action_state }}"
+          echo "${{ env.image_tag }}"
 
       - name: Build and publish image to Quay
         uses: docker/build-push-action@v1

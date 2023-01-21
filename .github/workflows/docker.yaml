@@ -35,12 +35,12 @@ jobs:
       - name: Get image tags
         id: image-tags
         run: |
-          if [ "$GITHUB_REF_NAME" = "main" ]
+          if [ "$GITHUB_REF_NAME" = "master" ]
           then
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV
           else
             [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}
-            echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
+            echo "IMAGE_TAG=happy-tag" >> $GITHUB_ENV
           fi
           echo "${{ env.IMAGE_TAG }}"
 

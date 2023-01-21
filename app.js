@@ -46,6 +46,7 @@ app.get("/users", (req, res) => {
     { id: 3, name: "Ted Catnip", age: 43 },
     { id: 4, name: "Mike Mortimer", age: 30 },
     { id: 5, name: "Alan Carrotcake", age: 38 },
+    { id: 6, name: "Tobias Rabbit", age: 51 },
   ];
   res.status(200).send(users);
 });

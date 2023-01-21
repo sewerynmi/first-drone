@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - "**EAHW-**"
+      - "**eahw-**"
 
 jobs:
   build-docker-image:

@@ -26,7 +26,7 @@ jobs:
             echo "image_tag=${TAG_UPPERCASE}" >> $GITHUB_ENV
           fi
 
-      - name: Build Image
+      - name: Build Docker Image
         id: build-image
         uses: redhat-actions/buildah-build@v2
         with:

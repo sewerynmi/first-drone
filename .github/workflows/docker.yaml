@@ -43,6 +43,7 @@ jobs:
             echo "IMAGE_TAG=happy-tag" >> $GITHUB_ENV
           fi
           echo "${{ env.IMAGE_TAG }}"
+          echo $GITHUB_REF_NAME
 
       - name: Build and publish image to Quay
         uses: docker/build-push-action@v1

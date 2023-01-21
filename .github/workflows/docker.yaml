@@ -39,8 +39,6 @@ jobs:
 
           if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]]; then 
             TAG=${match/#E/E}${BASH_REMATCH/#E/E}
-            echo "Branch matches pattern EAHW- !!!!"
-            echo "IMAGE_TAG=happy-tag" >> $GITHUB_ENV
             echo "action_state=brown and black" >> $GITHUB_ENV
           fi
           echo "${{ env.IMAGE_TAG }}"

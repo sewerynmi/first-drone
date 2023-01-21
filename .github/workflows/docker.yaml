@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Get image tags
+      - name: Get Image Tags
         id: image-tags
         run: |
           if [ "$GITHUB_REF_NAME" = "master" ]; then
@@ -23,9 +23,6 @@ jobs:
           if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
             echo "image_tag=${TAG}" >> $GITHUB_ENV
           fi
-          echo "${{ env.image_tag }}"
-          echo $GITHUB_REF_NAME
-          echo "${{ env.image_tag }}"
 
       - name: Build Image
         id: build-image

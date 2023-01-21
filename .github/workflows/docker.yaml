@@ -81,7 +81,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.QUAY_REPO }}
-          tags: ${{ env.image_tag }}
+          tags: ${{ env.image_tag }} m1
           containerfiles: |
             ./Dockerfile
 
@@ -90,7 +90,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }} m1
+          tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ env.QUAY_REGISTRY}}
           username: ${{ secrets.QUAY_ROBOT_NAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}

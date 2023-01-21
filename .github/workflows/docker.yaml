@@ -7,28 +7,12 @@ on:
 
 jobs:
   build-docker-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       QUAY_REGISTRY: quay.io/sewerynmi
       QUAY_REPO: expressdroneapp
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16.15.0"
-
-      - run: npm ci
-
-      - name: Set the value
-        id: step_one
-        run: |
-          echo "action_state=yellow" >> $GITHUB_ENV
-      - name: Use the value
-        id: step_two
-        run: |
-          echo "${{ env.action_state }}" # This will output 'yellow'
+      - uses: actions/checkout@v2
 
       - name: Get image tags
         id: image-tags
@@ -43,15 +27,24 @@ jobs:
           echo $GITHUB_REF_NAME
           echo "${{ env.image_tag }}"
 
-      - name: Build and publish image to Quay
-        id: push-to-quay
-        uses: docker/build-push-action@v2
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
         with:
+          image: expressdroneapp
+          tags: latest ${{ env.image_tag }}
+          containerfiles: |
+            ./Containerfile
+
+      - name: Push image to Quay
+        id: push-to-quay
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
           registry: QUAY_REGISTRY
-          repository: expressdroneapp
           username: ${{ secrets.QUAY_ROBOT_NAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
-          tags: "${{ env.IMAGE_TAG }}"
 
       - name: Print image url
         run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

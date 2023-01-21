@@ -44,6 +44,7 @@ jobs:
           echo "${{ env.image_tag }}"
 
       - name: Build and publish image to Quay
+        id: push-to-quay
         uses: docker/build-push-action@v2
         with:
           registry: QUAY_REGISTRY

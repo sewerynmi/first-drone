@@ -36,7 +36,6 @@ jobs:
           if [ "$GITHUB_REF_NAME" = "master" ]; then
             echo "image_tag=latest" >> $GITHUB_ENV
           fi
-
           if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
             echo "image_tag=${TAG}" >> $GITHUB_ENV
           fi
@@ -45,7 +44,7 @@ jobs:
           echo "${{ env.image_tag }}"
 
       - name: Build and publish image to Quay
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           registry: QUAY_REGISTRY
           repository: expressdroneapp

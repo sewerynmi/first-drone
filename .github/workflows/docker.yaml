@@ -1,0 +1,50 @@
+name: Docker
+on:
+  push:
+    branches:
+      - master
+      - "**EAHW-**"
+
+jobs:
+  build-docker-image:
+    runs-on: ubuntu-20.04
+    env:
+      QUAY_REGISTRY: quay.io/sewerynmi
+      QUAY_REPO: expressdroneapp
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get image tags
+        id: image-tags
+        run: |
+          if [ "$GITHUB_REF_NAME" = "master" ]; then
+            echo "image_tag=latest" >> $GITHUB_ENV
+          fi
+          if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
+            echo "image_tag=${TAG}" >> $GITHUB_ENV
+          fi
+          echo "${{ env.image_tag }}"
+          echo $GITHUB_REF_NAME
+          echo "${{ env.image_tag }}"
+
+      - name: Build Image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: expressdroneapp
+          tags: latest ${{ env.image_tag }}
+          containerfiles: |
+            ./Dockerfile
+
+      - name: Push image to Quay
+        id: push-to-quay
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ${{ env.QUAY_REGISTRY}}
+          username: ${{ secrets.QUAY_ROBOT_NAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+
+      - name: Print image url
+        run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

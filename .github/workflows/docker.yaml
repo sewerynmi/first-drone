@@ -30,7 +30,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: expressdroneapp
-          tags: latest ${{ env.image_tag }}
+          tags: ${{ env.image_tag }}
           containerfiles: |
             ./Dockerfile
 

@@ -54,7 +54,7 @@ jobs:
       IMAGE_NAME: expressdroneapp
       DOCKER_REGISTRY: quay.io/sewerynmi
       DOCKER_IMAGE: expressdroneapp
-      DOCKER_TARGET_PLATFORM: linux/arm/v7
+      DOCKER_TARGET_PLATFORM: linux/arm/v8
     runs-on: ubuntu-20.04
     strategy:
       fail-fast: false

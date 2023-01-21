@@ -37,8 +37,8 @@ jobs:
             echo "IMAGE_TAG=latest" >> $GITHUB_ENV
           fi
 
-          if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then 
-            echo "action_state=brownandblack ${TAG}" 
+          if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
+            echo "IMAGE_TAG=${TAG}" >> $GITHUB_ENV
           fi
           echo "${{ env.IMAGE_TAG }}"
           echo $GITHUB_REF_NAME

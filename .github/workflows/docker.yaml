@@ -43,6 +43,7 @@ jobs:
           fi
           echo "${{ env.IMAGE_TAG }}"
           echo $GITHUB_REF_NAME
+          echo "${{ env.action_state }}"
 
       - name: Build and publish image to Quay
         uses: docker/build-push-action@v1

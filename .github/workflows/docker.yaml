@@ -26,16 +26,15 @@ jobs:
       - name: Get image tags
         id: image-tags
         run: |
-          echo -n ::set-output name=IMAGE_TAGS::
-          TAGS=('test-tag')
+          echo 'IMAGE_TAG<<EOF' >> $GITHUB_ENV
           if [ "$GITHUB_REF_NAME" = "main" ]
           then
-            TAGS+=('latest')
+            echo 'latest' >> $GITHUB_ENV
           else
             [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}
-            TAGS+=(${TAG})
+            echo ${TAG} >> $GITHUB_ENV
           fi
-          ( IFS=$','; echo "${TAGS[*]}" )
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: Build and publish image to Quay
         uses: docker/build-push-action@v1
@@ -44,7 +43,7 @@ jobs:
           repository: expressdroneapp
           username: ${{ secrets.QUAY_ROBOT_NAME }}
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
-          tags: "${{ steps.image_tags.outputs.IMAGE_TAGS }}"
+          tags: "${{ env.IMAGE_TAG }}"
 
       - name: Print image url
         run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

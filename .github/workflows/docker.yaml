@@ -17,6 +17,7 @@ jobs:
 
       - name: Get Image Tags
         id: image-tags
+        shell: bash
         run: |
           if [ "$GITHUB_REF_NAME" = "master" ]; then
             echo "image_tag=latest" >> $GITHUB_ENV

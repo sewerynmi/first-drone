@@ -51,7 +51,7 @@ jobs:
   build-multiarch-dockerfile:
     name: Build multi-architecture image
     env:
-      IMAGE_NAME: NAME_OF_IMAGE
+      IMAGE_NAME: expressdroneapp
       DOCKER_REGISTRY: quay.io
       DOCKER_IMAGE: sewerynmi/expressdroneapp
       DOCKER_TARGET_PLATFORM: linux/arm/v7

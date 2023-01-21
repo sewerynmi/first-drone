@@ -33,6 +33,8 @@ jobs:
         with:
           image: expressdroneapp
           tags: latest ${{ env.image_tag }}
+          containerfiles: |
+            ./Dockerfile
 
       - name: Push image to Quay
         id: push-to-quay

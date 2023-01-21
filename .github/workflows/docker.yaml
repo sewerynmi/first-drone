@@ -23,8 +23,7 @@ jobs:
             echo "image_tag=latest" >> $GITHUB_ENV
           fi
           if [[ $GITHUB_REF_NAME =~ (eahw-[0-9]*|EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
-            TAG_UPPERCASE=$(echo "$TAG" | tr '[:lower:]' '[:upper:]')
-            echo "image_tag=${TAG_UPPERCASE}" >> $GITHUB_ENV
+            echo "image_tag=${TAG}" >> $GITHUB_ENV
           fi
 
       - name: Build Docker Image

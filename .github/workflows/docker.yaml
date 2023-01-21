@@ -63,6 +63,17 @@ jobs:
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Get Image Tags
+        id: image-tags
+        run: |
+          if [ "$GITHUB_REF_NAME" = "master" ]; then
+            echo "image_tag=latest" >> $GITHUB_ENV
+          fi
+          if [[ $GITHUB_REF_NAME =~ (eahw-[0-9]*|EAHW-[0-9]*) ]] && TAG=${match/#E/E}${BASH_REMATCH/#E/E}; then
+            TAG_UPPERCASE=$(echo "$TAG" | tr '[:lower:]' '[:upper:]')
+            echo "image_tag=${TAG_UPPERCASE}" >> $GITHUB_ENV
+          fi
+
       - name: Build Image
         id: build-image
         uses: redhat-actions/buildah-build@v2

@@ -2,8 +2,10 @@ name: Docker
 on:
   push:
     branches:
-      - main
+      - master
       - "**EAHW-**"
+      - "**eahw/**"
+      - "**eahw-**"
 
 jobs:
   build-docker-image:

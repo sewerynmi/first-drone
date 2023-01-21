@@ -38,7 +38,7 @@ jobs:
           fi
 
           if [[ $GITHUB_REF_NAME =~ (EAHW-[0-9]*) ]]; then 
-            echo "action_state=brown and black" >> $GITHUB_ENV
+            echo "action_state=brownandblack" >> $GITHUB_ENV
           fi
           echo "${{ env.IMAGE_TAG }}"
           echo $GITHUB_REF_NAME

@@ -68,9 +68,9 @@ jobs:
       - name: Log in to Quay.io
         uses: redhat-actions/podman-login@v1
         with:
-          username: $\{\{ secrets.QUAY_ROBOT_NAME \}\}
-          password: $\{\{ secrets.QUAY_ROBOT_TOKEN \}\}
-          registry: $\{\{ env.DOCKER_REGISTRY \}\}
+          username: ${{ secrets.QUAY_ROBOT_NAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
 
       - name: Install qemu dependency
         run: |
@@ -79,19 +79,19 @@ jobs:
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
-          image: $\{\{ env.DOCKER_IMAGE \}\}
+          image: ${{ env.DOCKER_IMAGE }}
           tags: latest
-          arch: $\{\{ matrix.arch \}\}
-          build-args: ARCH=$\{\{ matrix.arch \}\}
+          arch: ${{ matrix.arch }}
+          build-args: ARCH=${{ matrix.arch }}
           containerfiles: |
             ./Dockerfile
       - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: $\{\{ env.IMAGE_NAME \}\}
+          image: ${{ env.IMAGE_NAME }}
           tags: latest
           registry: quay.io/awesome
 
       - name: Print image url
-        run: echo "Image pushed to $\{\{ steps.push-to-quay.outputs.registry-paths \}\}"
+        run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

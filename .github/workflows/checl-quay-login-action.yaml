@@ -1,0 +1,18 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - master
+      - "**EAHW-**"
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Quay.io Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_ROBOT_NAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}

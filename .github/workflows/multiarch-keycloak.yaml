@@ -11,7 +11,7 @@ on:
 jobs:
   build-multi-arch-image:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
 
     steps:
       - name: Checkout

@@ -7,9 +7,22 @@ on:
       - "**EAHW-**"
 
 jobs:
-  login:
+  build-keycloak-docker-image:
     runs-on: ubuntu-latest
+    services:
+      keycloak:
+        image: quay.io/keycloak/keycloak:15.0.2
+        options: --name keycloak
+        env:
+          KEYCLOAK_USER: admin
+          KEYCLOAK_PASSWORD: admin
+        ports:
+          - 8080
     steps:
+      - uses: actions/checkout@v1
+      - name: Wait for Keycloak
+        run: (docker logs -f keycloak &) | grep -m 1 "Admin console listening on"
+        timeout-minutes: 1
       - name: Login to Quay.io Container Registry
         uses: docker/login-action@v2
         with:

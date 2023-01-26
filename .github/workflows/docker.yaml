@@ -26,24 +26,72 @@ jobs:
             echo "image_tag=${TAG_UPPERCASE}" >> $GITHUB_ENV
           fi
 
-      - name: Build Image
-        id: build-image
+      # - name: Build Image
+      #   id: build-image
+      #   uses: redhat-actions/buildah-build@v2
+      #   with:
+      #     image: ${{ env.QUAY_REPO }}
+      #     tags: ${{ env.image_tag }}
+      #     containerfiles: |
+      #       ./Dockerfile
+
+      # - name: Push image to Quay
+      #   id: push-to-quay
+      #   uses: redhat-actions/push-to-registry@v2
+      #   with:
+      #     image: ${{ steps.build-image.outputs.image }}
+      #     tags: ${{ steps.build-image.outputs.tags }}
+      #     registry: ${{ env.QUAY_REGISTRY}}
+      #     username: ${{ secrets.QUAY_ROBOT_NAME }}
+      #     password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+
+      - name: Print image url
+        run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
+
+  build-multiarch-dockerfile:
+    name: Build multi-architecture image
+    env:
+      IMAGE_NAME: expressdroneapp
+      DOCKER_REGISTRY: quay.io/sewerynmi
+      DOCKER_IMAGE: expressdroneapp
+      DOCKER_TARGET_PLATFORM: linux/arm/v8
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [amd64, arm64]
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v1
+
+      - name: Log in to Quay.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ secrets.QUAY_ROBOT_NAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+      - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
-          image: expressdroneapp
-          tags: ${{ env.image_tag }}
+          image: ${{ env.DOCKER_IMAGE }}
+          tags: latest
+          arch: ${{ matrix.arch }}
+          build-args: ARCH=${{ matrix.arch }}
           containerfiles: |
             ./Dockerfile
-
-      - name: Push image to Quay
+      - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ${{ env.QUAY_REGISTRY}}
-          username: ${{ secrets.QUAY_ROBOT_NAME }}
-          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+          image: ${{ env.IMAGE_NAME }}
+          tags: latest
+          registry: quay.io/sewerynmi
 
       - name: Print image url
         run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"

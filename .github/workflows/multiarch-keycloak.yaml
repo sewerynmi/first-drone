@@ -1,0 +1,37 @@
+name: Keycloak AMD and ARM
+on:
+  workflow_dispatch:
+    inputs:
+      keycloak_version:
+        type: string
+        description: "Keycloak version"
+        required: true
+        default: "15.0.2"
+
+jobs:
+  build-multi-arch-image:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: keycloak/keycloak-containers
+          ref: "${{ inputs.keycloak_version }}"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Quay.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ secrets.QUAY_ROBOT_NAME }}
+          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+          registry: quay.io/sewerynmi
+
+      - name: Build and Push multi-arch image to Amazon ECR
+        run: |
+          cd server
+          docker buildx build --push --platform linux/amd64,linux/arm64 --tag quay.io/sewerynmi/keycloak:'${{ inputs.keycloak_version }}' .
